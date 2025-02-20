@@ -14,6 +14,12 @@ RSpec.describe Park do
     @charlie = Passenger.new({"name" => "Charlie", "age" => 18})
     @jude = Passenger.new({"name" => "Jude", "age" => 20})
     @taylor = Passenger.new({"name" => "Taylor", "age" => 12})
+
+    @vehicle1.add_passenger(@charlie)
+    @vehicle1.add_passenger(@taylor)
+    @vehicle2.add_passenger(@jude)
+    @park.add_vehicle(@vehicle1)
+    @park.add_vehicle(@vehicle2)
   end
 
   it 'initialize' do
@@ -26,27 +32,31 @@ RSpec.describe Park do
   end
 
   it 'list all vehicles' do
-    expect(@park.vehicles).to eq([])
-    @park.add_vehicle(@vehicle1)
-    @park.add_vehicle(@vehicle2)
+    # expect(@park.vehicles).to eq([]) # for organization sake i decided to set all values in the #before block so this will fail without removing vehicles before this test
     expect(@park.vehicles).to eq([@vehicle1, @vehicle2])
   end
 
   it 'list all passengers' do
-    @vehicle1.add_passenger(@charlie)
-    @vehicle1.add_passenger(@taylor)
-    @vehicle2.add_passenger(@jude)
-    @park.add_vehicle(@vehicle1)
-    @park.add_vehicle(@vehicle2)
     expect(@park.all_passengers).to eq([@charlie, @taylor, @jude])
   end
 
   it 'calculate total revenue' do
-    @vehicle1.add_passenger(@charlie)
-    @vehicle1.add_passenger(@taylor)
-    @vehicle2.add_passenger(@jude)
-    @park.add_vehicle(@vehicle1)
-    @park.add_vehicle(@vehicle2)
     expect(@park.revenue).to eq(60) # 2 * 30 (adults * price)
+  end
+
+  # iteration 4 below
+  # all of these are presorted and im not storing the unsorted list cause that would
+  # honestly be more work.
+
+  it 'generate list of passengers (sorted)' do # 1st requirement
+    expect(@park.passenger_names).to eq(["Charlie", "Jude", "Taylor"])
+  end
+
+  it 'generate list of minors (sorted)' do # 2nd requirement
+    expect(@park.minors).to eq(["Taylor"])
+  end
+
+  it 'generate list of adults (sorted)' do # 3rd requirement
+    expect(@park.adults).to eq(["Charlie", "Jude"])
   end
 end
