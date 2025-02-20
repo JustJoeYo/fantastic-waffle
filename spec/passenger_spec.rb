@@ -1,4 +1,4 @@
-require './spec_helper.rb'
+require './lib/passenger.rb'
 
 # This block helps format the test results
 RSpec.configure do |config|
